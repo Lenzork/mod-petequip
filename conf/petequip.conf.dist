@@ -1,0 +1,17 @@
+#
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+#
+
+[worldserver]
+
+########################################
+# Pet Equip Configuration
+########################################
+#
+#    PetEquip.Enable
+#        Description: Enable Pet Equip to let the players decide what their pets are going to equip based on the creature_equip_template
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+PetEquip.Enable = 1
