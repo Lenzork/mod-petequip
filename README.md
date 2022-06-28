@@ -1,7 +1,4 @@
-# Pet Equip - Module
-
-[English](README.md) | [Español](README_ES.md)
-
+# Pet Equip - Module <=> By Lenzork
 
 ## How to install
 
