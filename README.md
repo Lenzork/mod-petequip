@@ -1,22 +1,26 @@
-# SKELETON - Module template
+# Pet Equip - Module
 
 [English](README.md) | [Español](README_ES.md)
 
 
-## How to create your own module
+## How to install
 
-1. Use the script `create_module.sh` located in [`modules/`](https://github.com/azerothcore/azerothcore-wotlk/tree/master/modules) to start quickly with all the files you need and your git repo configured correctly (heavily recommended).
-1. You can then use these scripts to start your project: https://github.com/azerothcore/azerothcore-boilerplates
-1. Do not hesitate to compare with some of our newer/bigger/famous modules.
-1. Edit the `README.md` and other files (`include.sh` etc...) to fit your module. Note: the README is automatically created from `README_example.md` when you use the script `create_module.sh`.
-1. Publish your module to our [catalogue](https://github.com/azerothcore/modules-catalogue).
+1. Copy the "mod-petequip" folder into your `AzerothCore/modules` folder
+2. Execute the SQL File that is in `mod-petequip/sql/characters/base`-folder into your characters Database
+2. Rebuild the core
 
+## How to use
 
-## How to test your module?
+1. Go ingame
+2. Enter `.petequip {ID}` into the chat. The ID needs to be the number from the column `id` of `creature_equip_template` (which is located in your acore_world database)
+3. Then your Pet should have the weapon of the Equipment ID equipped!
 
-Disable PCH (precompiled headers) and try to compile. To disable PCH, set `-DNOPCH=1` with Cmake (more info [here](http://www.azerothcore.org/wiki/CMake-options)).
+## How to add new weapons to equip
 
-If you forgot some headers, it is time to add them!
+1. Go ingame and then summon the Pet that should be able to equip new weapons. (For example: Felguard)
+2. Select the Pet and write `.npc info` then you should see a bunch of informations. You want to look for the `current entry: xxx`. Save that entry somewhere
+3. Go into your world Database and into the `creature_equip_template` and search for the entry that you've just saved (For example Felguard: 17252)
+4. Add a new table entry for the Creature you want to have a weapon. In my case: 17252, next there is the id - if there was an entry before you add +1 to the id. So if there was an entry before and the id was 1 then you do 2 as the id of your new entry. Then on the ItemID1 you enter the item entry of the item you want the pet to have.
 
 ## Licensing
 
