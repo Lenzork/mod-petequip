@@ -21,13 +21,11 @@ public:
             QueryResult result = CharacterDatabase.Query("SELECT `equipmentId` FROM `character_pet_equip` WHERE guid = {}", ownerGUID);
             if (result)
             {
+                // Finally execute
                 do {
                     pet->SetCurrentEquipmentId((*result)[0].Get<int>());
                     pet->LoadEquipment((*result)[0].Get<int>(), true);
                 } while (result->NextRow());
-            }
-            else {
-                CharacterDatabase.Execute("INSERT INTO `character_pet_equip` (guid, equipmentId) VALUES ({}, 1)", ownerGUID);
             }
         }
     }
@@ -62,6 +60,7 @@ public:
                 if(handler->GetPlayer()->GetPet()){
                     Pet* playerPet = handler->GetPlayer()->GetPet();
                     uint32 ownerGUID = handler->GetPlayer()->GetGUID().GetCounter();
+                    CharacterDatabase.Execute("INSERT IGNORE INTO `character_pet_equip` (guid, equipmentId) VALUES ({}, 1)", ownerGUID);
                     playerPet->SetCurrentEquipmentId(args);
                     CharacterDatabase.Execute("UPDATE character_pet_equip SET equipmentId = {} WHERE guid={}", args, ownerGUID);
                     playerPet->LoadEquipment(args, true);
