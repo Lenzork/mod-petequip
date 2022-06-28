@@ -17,10 +17,20 @@
 CREATE DATABASE IF NOT EXISTS `acore_characters` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `acore_characters`;
 
+-- Exportiere Struktur von Tabelle acore_characters.character_pet_equip
+CREATE TABLE IF NOT EXISTS `character_pet_equip` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `guid` int NOT NULL COMMENT 'Characterguid',
+  `equipmentId` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`,`guid`) USING BTREE,
+  UNIQUE KEY `guid` (`guid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Saves the Pet Equipment in order to get the Equipment again after summoning the pet!';
+
 -- Exportiere Daten aus Tabelle acore_characters.character_pet_equip: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `character_pet_equip` DISABLE KEYS */;
 INSERT INTO `character_pet_equip` (`ID`, `guid`, `equipmentId`) VALUES
-	(0, 17, 2);
+	(1, 17, 2),
+	(7, 33, 2);
 /*!40000 ALTER TABLE `character_pet_equip` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
