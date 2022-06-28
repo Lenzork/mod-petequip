@@ -26,6 +26,9 @@ public:
                     pet->LoadEquipment((*result)[0].Get<int>(), true);
                 } while (result->NextRow());
             }
+            else {
+                CharacterDatabase.Execute("INSERT INTO `character_pet_equip` (guid, equipmentId) VALUES ({}, 1)", ownerGUID);
+            }
         }
     }
 };
