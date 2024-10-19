@@ -26,13 +26,6 @@ CREATE TABLE IF NOT EXISTS `character_pet_equip` (
   UNIQUE KEY `guid` (`guid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Saves the Pet Equipment in order to get the Equipment again after summoning the pet!';
 
--- Exportiere Daten aus Tabelle acore_characters.character_pet_equip: ~0 rows (ungefähr)
-/*!40000 ALTER TABLE `character_pet_equip` DISABLE KEYS */;
-INSERT INTO `character_pet_equip` (`ID`, `guid`, `equipmentId`) VALUES
-	(1, 17, 2),
-	(7, 33, 2);
-/*!40000 ALTER TABLE `character_pet_equip` ENABLE KEYS */;
-
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
