@@ -8,45 +8,48 @@
 #include "Chat.h"
 #include "Pet.h"
 
-// Pet Equipment Module by Lenzork
-// Have fun with it!
-class PetEquip : public PetScript
+class PetEquip final : public PetScript
 {
 public:
     PetEquip() : PetScript("PetEquip") { }
 
-    void OnPetAddToWorld(Pet* pet) {
+    void OnPetAddToWorld(Pet* pet) override {
         if(sConfigMgr->GetOption<bool>("PetEquip.Enable", false)){ // Check if Module is activated
-            int ownerGUID = pet->GetOwnerGUID().GetCounter();
-            QueryResult result = CharacterDatabase.Query("SELECT `equipmentId` FROM `character_pet_equip` WHERE guid = {}", ownerGUID);
-            if (result)
+            ObjectGuid::LowType ownerGUID = pet->GetOwnerGUID().GetCounter();
+            if (const QueryResult result = CharacterDatabase.Query("SELECT `equipmentId` FROM `character_pet_equip` WHERE guid = {}", ownerGUID))
             {
+                // Receive Equipment Id
+                const Field* fields = result->Fetch();
+                const int8 equipmentId = fields[0].Get<int8>();
+
                 // Finally execute
                 do {
                     pet->SetCurrentEquipmentId((*result)[0].Get<int>());
-                    pet->LoadEquipment((*result)[0].Get<int>(), true);
+                    pet->LoadEquipment(equipmentId, true);
                 } while (result->NextRow());
             }
         }
     }
 };
 
-class PetEquipCommand : public CommandScript
+using namespace Acore::ChatCommands;
+
+class PetEquipCommand final : public CommandScript
 {
 public:
     PetEquipCommand() : CommandScript("PetEquipCommand") { }
 
-    std::vector<ChatCommand> GetCommands() const override
+    [[nodiscard]] ChatCommandTable GetCommands() const override
     {
-        static std::vector<ChatCommand> commandTable =
+        static ChatCommandTable commandTable =
         {
-            { "petequip",   SEC_PLAYER,      false,            HandlePetEquipCommand,         "Enter a number after it to change the Player Pets equipment Table if there are some. Helpful for example for Warlocks!"}
+            { "petequip", HandlePetEquipCommand,    SEC_PLAYER, Console::No }
         };
 
         return commandTable;
     }
 
-    static bool HandlePetEquipCommand(ChatHandler* handler, int args)
+    static bool HandlePetEquipCommand(ChatHandler* handler, int8 args)
     {
         if(sConfigMgr->GetOption<bool>("PetEquip.Enable", false)){ // Check if Module is activated
             if (!args)
@@ -56,21 +59,19 @@ public:
                 return false;
             }
 
-            if (args) {
-                if(handler->GetPlayer()->GetPet()){
-                    Pet* playerPet = handler->GetPlayer()->GetPet();
-                    uint32 ownerGUID = handler->GetPlayer()->GetGUID().GetCounter();
-                    CharacterDatabase.Execute("INSERT IGNORE INTO `character_pet_equip` (guid, equipmentId) VALUES ({}, 1)", ownerGUID);
-                    playerPet->SetCurrentEquipmentId(args);
-                    CharacterDatabase.Execute("UPDATE character_pet_equip SET equipmentId = {} WHERE guid={}", args, ownerGUID);
-                    playerPet->LoadEquipment(args, true);
-                    playerPet->Say("A new Weapon? Hmpf...", LANG_UNIVERSAL);
-                    handler->PSendSysMessage("Successfully set the Pet Equipment ID to " + args);
-                    handler->PSendSysMessage(args);
-                }
-                else {
-                    handler->PSendSysMessage("You do not have a Pet!");
-                }
+            if(handler->GetPlayer()->GetPet()){
+                Pet* playerPet = handler->GetPlayer()->GetPet();
+                uint32 ownerGUID = handler->GetPlayer()->GetGUID().GetCounter();
+                CharacterDatabase.Execute("INSERT IGNORE INTO `character_pet_equip` (guid, equipmentId) VALUES ({}, 1)", ownerGUID);
+                playerPet->SetCurrentEquipmentId(args);
+                CharacterDatabase.Execute("UPDATE character_pet_equip SET equipmentId = {} WHERE guid={}", args, ownerGUID);
+                playerPet->LoadEquipment(args, true);
+                playerPet->Say("A new Weapon? Hmpf...", LANG_UNIVERSAL);
+                handler->PSendSysMessage("Successfully set the Pet Equipment ID to " + args);
+                handler->PSendSysMessage(args);
+            }
+            else {
+                handler->PSendSysMessage("You do not have a Pet!");
             }
         }
         return true;
