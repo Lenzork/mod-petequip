@@ -1,3 +1,5 @@
+# This is a module for ![ac](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
+
 # Pet Equip - Module
 
 ## How to install
