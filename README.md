@@ -1,4 +1,4 @@
-# Pet Equip - Module <=> By Lenzork
+# Pet Equip - Module
 
 ## How to install
 
@@ -22,6 +22,14 @@
 ## Screenshot
 
 ![alt text](https://i.ibb.co/ctdWhyS/Wo-WScrn-Shot-062822-221436.jpg)
+
+## Informations
+
+- Name:   petequip
+- Author:   Lenzork
+- Repository:   https://github.com/Lenzork/mod-petequip/
+- Download:   https://github.com/Lenzork/mod-petequip/archive/refs/tags/v1.0.2.zip
+- License:   MIT
 
 ## Licensing
 
