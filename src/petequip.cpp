@@ -24,7 +24,7 @@ public:
 
                 // Finally execute
                 do {
-                    pet->SetCurrentEquipmentId((*result)[0].Get<int>());
+                    pet->SetCurrentEquipmentId(equipmentId);
                     pet->LoadEquipment(equipmentId, true);
                 } while (result->NextRow());
             }
